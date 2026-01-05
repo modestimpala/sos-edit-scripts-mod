@@ -14,7 +14,10 @@ Adds an [b]“Edit Scripts”[/b] button to the load screen so you can choose wh
 [b]Notes[/b]
 [list]
 [*]This only changes which scripts are enabled for the load; it doesn’t edit the save file on disk.
+[*]If you untick everything and click [b]Load[/b] in the scripts editor, the save is loaded with [b]no scripts enabled[/b] (except scripts that force themselves on).
 [*]You have to save again in-game to make the changes permanent.
+[*]If you load with a script disabled and then save, that new save will no longer contain that script’s saved state.
+[*]Scripts that return [i]forceInit() == true[/i] can’t be disabled.
 [/list]
 
 [b]Compatibility[/b]
@@ -23,4 +26,5 @@ This mod replaces game UI classes, so it’s incompatible with any other mod tha
 [*][i]src\main\java\view\menu\MenuScreenLoad.java[/i]
 [*][i]src\main\java\view\menu\IMenuLoad.java[/i]
 [*][i]src\main\java\menu\ScLoad.java[/i]
+[*][i]src\main\java\game\GameSpec.java[/i]
 [/list]

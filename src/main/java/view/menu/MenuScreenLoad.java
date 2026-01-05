@@ -8,6 +8,7 @@ import init.paths.PATH;
 import init.paths.PATHS;
 import init.race.RACES;
 import init.sprite.UI.UI;
+import game.GameSpec;
 import script.ScriptEngine;
 import script.ScriptLoad;
 import snake2d.SPRITE_RENDERER;
@@ -613,7 +614,11 @@ public abstract class MenuScreenLoad extends ClickableAbs {
                         if (scriptsChecked[i])
                             keys.add(availableScripts.get(i).key);
                     }
-                    load(f, keys.toArray(new String[0]));
+                    if (keys.isEmpty()) {
+                        load(f, new String[] { GameSpec.SCRIPTS_NONE_MARKER });
+                    } else {
+                        load(f, keys.toArray(new String[0]));
+                    }
                 }
                 current = main;
             }
