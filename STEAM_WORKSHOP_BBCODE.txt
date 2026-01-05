@@ -1,0 +1,26 @@
+[b]Edit Scripts (Songs of Syx mod)[/b]
+
+Adds an [b]“Edit Scripts”[/b] button to the load screen so you can choose which scripts are enabled [b]before[/b] loading a save.
+
+[b]How it works[/b]
+[list]
+[*]Open Load Game.
+[*]Select a save.
+[*]Click [b]Edit Scripts[/b].
+[*]Tick/untick scripts.
+[*]Click [b]Load[/b] to load the save using that script selection.
+[/list]
+
+[b]Notes[/b]
+[list]
+[*]This only changes which scripts are enabled for the load; it doesn’t edit the save file on disk.
+[*]You have to save again in-game to make the changes permanent.
+[/list]
+
+[b]Compatibility[/b]
+This mod replaces game UI classes, so it’s incompatible with any other mod that also replaces any of these files:
+[list]
+[*][i]src\main\java\view\menu\MenuScreenLoad.java[/i]
+[*][i]src\main\java\view\menu\IMenuLoad.java[/i]
+[*][i]src\main\java\menu\ScLoad.java[/i]
+[/list]
