@@ -11,6 +11,7 @@ import init.paths.PATHS;
 import init.type.HTYPES;
 import script.ScriptEngine;
 import script.ScriptLoad;
+import settlement.stats.POP;
 import settlement.stats.STATS;
 import snake2d.util.file.FileGetter;
 import snake2d.util.file.FilePutter;
@@ -116,7 +117,7 @@ public class GameSpec {
 		f.i(0);
 		f.i(VERSION.VERSION);
 		f.d((int) TIME.playedGame());
-		f.i(STATS.POP().POP.data().get(null));
+		f.i(POP.tot(null, null));
 		f.i(STATS.POP().pop(HTYPES.ENEMY()));
 		f.i(FACTIONS.player().realm().regions() - 1);
 		f.i(RD.RACES().population.faction().get(FACTIONS.player()));
@@ -158,10 +159,10 @@ public class GameSpec {
 	public static GameSpec get(Path path) {
 		try {
 			FileGetter g = new FileGetter(path, true);
-			GameSpec s = new GameSpec(g);
+			GameSpec s = new GameSpec(g, new String[0]);
 			return s;
 		} catch (Exception e) {
-			return new GameSpec();
+			return new GameSpec(new String[0]);
 		}
 	}
 

@@ -11,11 +11,13 @@ import init.sprite.UI.UI;
 import game.GameSpec;
 import script.ScriptEngine;
 import script.ScriptLoad;
+import snake2d.MButt;
 import snake2d.SPRITE_RENDERER;
 import snake2d.util.color.COLOR;
 import snake2d.util.datatypes.COORDINATE;
 import snake2d.util.datatypes.DIR;
 import snake2d.util.datatypes.RECTANGLE;
+import snake2d.util.gui.GUI_BOX;
 import snake2d.util.gui.GuiSection;
 import snake2d.util.gui.clickable.CLICKABLE;
 import snake2d.util.gui.clickable.CLICKABLE.ClickableAbs;
@@ -486,7 +488,12 @@ public abstract class MenuScreenLoad extends ClickableAbs {
         @Override
         protected void clickA() {
             selectedSave = index;
-            file = null;
+            if (MButt.LEFT.isDouble()) {
+                SaveFile f = saves[index];
+                if (!f.spec().fubar) {
+                    load(f);
+                }
+            }
         }
 
         @Override
@@ -507,6 +514,20 @@ public abstract class MenuScreenLoad extends ClickableAbs {
             renderName(r, s, body);
             COLOR.WHITE50.render(r, body.x1(), body.x2(), body.y2(), body.y2() + 1);
             COLOR.unbind();
+        }
+
+        @Override
+        public boolean hover(COORDINATE mCoo) {
+            if (super.hover(mCoo)) {
+                file = saves[index];
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public void hoverInfoGet(GUI_BOX text) {
+            file = saves[index];
         }
 
     }

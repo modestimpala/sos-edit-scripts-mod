@@ -38,6 +38,20 @@
             </activation>
         </profile>
         <profile>
+            <id>mac</id>
+            <properties>
+                <game.mod.directory>${user.home}/Library/Application Support/songsofsyx/mods</game.mod.directory>
+                <game.workshop.directory>${user.home}/Library/Application Support/Steam/steamapps/workshop/content/1162750</game.workshop.directory>
+                <game.install.directory>${user.home}/Library/Application Support/Steam/steamapps/common/Songs of Syx/SongsOfSyxMac.app/Contents/Resources</game.install.directory>
+                <game.mod.uploader.directory>${user.home}/Library/Application Support/songsofsyx/mods-uploader</game.mod.uploader.directory>
+            </properties>
+            <activation>
+                <os>
+                    <family>mac</family>
+                </os>
+            </activation>
+        </profile>
+        <profile>
             <id>mod-sdk-steam</id>
             <properties>
                 <mod.sdk.directory>${game.workshop.directory}/${mod.sdk.workshop.id}</mod.sdk.directory>
@@ -162,7 +176,7 @@
         <!-- These settings will go into the mods _Info.txt file -->
         <mod.version>${project.version}</mod.version>
         <mod.name>Edit Save Scripts</mod.name>
-        <mod.description>Lets you enable/disable ScriptEngine (jar) scripts when loading a save. </mod.description>
+        <mod.description>Lets you enable/disable ScriptEngine (jar) scripts when loading a save. Updated for V71.</mod.description>
         <mod.author>Moddy aka ModestImpala</mod.author>
         <mod.info>Adds an 'Edit Scripts' button to the load menu.</mod.info>
         <!--
@@ -174,8 +188,8 @@
             * Run a "mvn validate" to install the new version in the local maven repository
             * Maven is then able to find and resolve the new Songs of Syx code
          -->
-        <game.version.major>70</game.version.major>
-        <game.version.minor>21</game.version.minor>
+        <game.version.major>71</game.version.major>
+        <game.version.minor>31</game.version.minor>
 
         <!-- Mod SDK (this only applies when "mod-sdk" profile is enabled) -->
         <mod.sdk.version>0</mod.sdk.version>
