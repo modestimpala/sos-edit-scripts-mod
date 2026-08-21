@@ -25,7 +25,9 @@ import snake2d.util.gui.clickable.Scrollable;
 import snake2d.util.gui.clickable.Scrollable.ScrollRow;
 import snake2d.util.gui.renderable.RENDEROBJ;
 import snake2d.util.sprite.text.Str;
+import snake2d.util.sprite.text.StringInputSprite;
 import util.colors.GCOLOR;
+import util.gui.misc.GInput;
 import util.gui.misc.GStat;
 import util.gui.misc.GText;
 import util.gui.table.GScrollable;
@@ -577,24 +579,55 @@ public abstract class MenuScreenLoad extends ClickableAbs {
 
         scriptsEditor.add(new GText(UI.FONT().H2, "Edit Scripts"), 0, 0);
 
+        java.util.ArrayList<Integer> filteredScripts = new java.util.ArrayList<>();
+        for (int i = 0; i < availableScripts.size(); i++) {
+            filteredScripts.add(i);
+        }
+
+        GInput filter = new GInput(new StringInputSprite(48, UI.FONT().M) {
+            @Override
+            protected void change() {
+                String query = text().toString().trim().toLowerCase(java.util.Locale.ROOT);
+                filteredScripts.clear();
+                for (int i = 0; i < availableScripts.size(); i++) {
+                    if (availableScripts.get(i).label.toLowerCase(java.util.Locale.ROOT).contains(query))
+                        filteredScripts.add(i);
+                }
+                super.change();
+            }
+        }.placeHolder("Filter scripts...")) {
+            @Override
+            public boolean click() {
+                // GInput's default click handler uses VIEW.mouse(), but VIEW is
+                // not initialized on the main menu. Focusing is all this filter
+                // needs and works in both the main menu and in-game UI.
+                if (hoveredIs() && activeIs()) {
+                    listen();
+                    return true;
+                }
+                return false;
+            }
+        };
+        scriptsEditor.addDownC(12, filter);
+
         class ScriptRow extends CLICKABLE.ClickableAbs implements ScrollRow {
 
-            private final int ii;
+            private int index;
 
-            ScriptRow(int ii) {
-                this.ii = ii;
+            ScriptRow() {
                 body.setWidth(MenuScreen.inner.width());
                 body.setHeight(24);
             }
 
             @Override
             public void init(int index) {
-                // fixed mapping; row index is ii
+                this.index = index;
             }
 
             @Override
             protected void clickA() {
-                scriptsChecked[ii] = !scriptsChecked[ii];
+                int scriptIndex = filteredScripts.get(index);
+                scriptsChecked[scriptIndex] = !scriptsChecked[scriptIndex];
             }
 
             @Override
@@ -605,22 +638,26 @@ public abstract class MenuScreenLoad extends ClickableAbs {
                 if (isHovered)
                     GCOLOR.T().HOVERED.bind();
 
-                UI.FONT().M.render(r, (scriptsChecked[ii] ? "[x] " : "[ ] ") + availableScripts.get(ii).label,
+                int scriptIndex = filteredScripts.get(index);
+                UI.FONT().M.render(r, (scriptsChecked[scriptIndex] ? "[x] " : "[ ] ") + availableScripts.get(scriptIndex).label,
                         x1, y1);
 
                 COLOR.unbind();
             }
         }
 
-        ScrollRow[] rows = new ScrollRow[availableScripts.size()];
+        // GScrollable virtualizes entries over this fixed set of visible rows.
+        // Keeping the viewport bounded makes its scrollbar and mouse-wheel
+        // handling available when there are more scripts than can fit at once.
+        ScrollRow[] rows = new ScrollRow[14];
         for (int i = 0; i < rows.length; i++) {
-            rows[i] = new ScriptRow(i);
+            rows[i] = new ScriptRow();
         }
 
         Scrollable s2 = new GScrollable(rows) {
             @Override
             public int nrOFEntries() {
-                return rows.length;
+                return filteredScripts.size();
             }
         };
         scriptsEditor.addDownC(16, s2.getView());
